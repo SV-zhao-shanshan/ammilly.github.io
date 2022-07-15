@@ -3,14 +3,21 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Tag: SyntheticEvent | Amy&#39;s blog</title>
+  <title>a == 1 &amp;&amp; a == 2 &amp;&amp; a == 3 ? | Amy&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Amy&#39;s blog">
-<meta property="og:url" content="http://yoursite.com/tags/SyntheticEvent/index.html">
+  <meta name="description" content="如何才能让标题的等式成立呢，这是一个很有意思的问题，也很考验 js 的基础知识，涉及到知识点还真不少，在此学习以记之。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="a &#x3D;&#x3D; 1 &amp;&amp; a &#x3D;&#x3D; 2 &amp;&amp; a &#x3D;&#x3D; 3 ?">
+<meta property="og:url" content="http://yoursite.com/2022/07/15/object_equals/index.html">
 <meta property="og:site_name" content="Amy&#39;s blog">
+<meta property="og:description" content="如何才能让标题的等式成立呢，这是一个很有意思的问题，也很考验 js 的基础知识，涉及到知识点还真不少，在此学习以记之。">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-07-15T00:40:00.000Z">
+<meta property="article:modified_time" content="2022-07-15T08:39:02.517Z">
 <meta property="article:author" content="Amy Zhao">
+<meta property="article:tag" content="js">
+<meta property="article:tag" content="object">
+<meta property="article:tag" content="equals">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="/atom.xml" title="Amy&#39;s blog" type="application/atom+xml">
@@ -62,39 +69,114 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2017/05/11/SyntheticEvent/" class="archive-article-date">
-  <time datetime="2017-05-11T08:40:00.000Z" itemprop="datePublished">May 11</time>
+        <section id="main"><article id="post-object_equals" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/15/object_equals/" class="article-date">
+  <time datetime="2022-07-15T00:40:00.000Z" itemprop="datePublished">2022-07-15</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/05/11/SyntheticEvent/">合成事件（SyntheticEvent）</a>
+    <h1 class="article-title" itemprop="name">
+      a == 1 &amp;&amp; a == 2 &amp;&amp; a == 3 ?
     </h1>
   
 
-    </header>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>如何才能让标题的等式成立呢，这是一个很有意思的问题，也很考验 js 的基础知识，涉及到知识点还真不少，在此学习以记之。</p>
+</blockquote>
+<span id="more"></span>
+<h2 id="松相等和严相等"><a href="#松相等和严相等" class="headerlink" title="松相等和严相等"></a>松相等和严相等</h2><p>js 中的相等分别松相等(==)和严相等(===)，这两个都可以用来判断两个值是否<strong>相等</strong>，那么二者的区别是什么呢？下面分情况分析一下：</p>
+<ol>
+<li>对于基础类型之间的比较，==和===是有区别的：  </li>
+</ol>
+<ul>
+<li>同类型比较，直接进行值比较，两者结果相同；</li>
+<li>不同类型间比较，==会进行强制类型转换，转化成同一类型后，比较值是否相等，===如果类型不同，则结果直接不相等（这里涉及到如何进行类型转换，看下文）</li>
+</ul>
+<ol start="2">
+<li>对于引用类型之间的比较，==和===是没有区别的，都是进行<strong>内存地址</strong>比较，不同的两个引用类型比较的结果都不相同</li>
+<li>基础类型和引用类型之间的比较，==和===的区别为：  </li>
+</ol>
+<ul>
+<li>类型不同，===始终不等；</li>
+<li>对于==，会将引用类型转化为基础类型，进行值比较（这里涉及到引用类型如何转化为基础类型，看下文）</li>
+</ul>
+<h2 id="比较的转换规则"><a href="#比较的转换规则" class="headerlink" title="==比较的转换规则"></a>==比较的转换规则</h2><p><em>x == y</em>的比较流程如下（ES5规范中定义：<a target="_blank" rel="noopener" href="https://262.ecma-international.org/5.1/#sec-11.9.3）">https://262.ecma-international.org/5.1/#sec-11.9.3）</a></p>
+<ol>
+<li><p>如果Type(x)等于Type(y)，那么：<br>a. 如果 Type(x)是 Undefined，返回 true,<br>b. 如果 Type(x)是 Null，返回 true,<br>c. 如果 Type(x)是 Number，数值类型，则：<br>i. 如果 x 是 NaN，返回 false.<br>ii. 如果 y 是 NaN，返回 false.<br>iii. 如果 x 和 y 都是 Number 类型，并且值相同，则返回 true.<br>iv. 如果 x 是 +0 并且 y 是 -0，则返回 true.<br>v. 如果 x 是 -0 并且 y 是 +0，则返回 true.<br>vi. 返回 false<br>d. 如果 Type(x)是 String 类型，若 x 和 y 是完全相同的字符串，则返回 true，否则返回 false。<br>e. 如果 Type(x) 是 Boolean 类型，若 x 和 y 同时为 <em>true</em> 或同时为<em>false</em>，则返回 true，否则返回 false。</p>
+</li>
+<li><p>如果 x 和 y 中有一个为<em>undefined</em>，则返回 true.</p>
+</li>
+<li>如果 Type(x) 和 Type(y) 中有一个为 String，另一个为 Number，则会先把其中的 String 类型转化为 Number 类型再进行比较值。</li>
+<li>如果 x 和 y 中有一个为 Boolean，则返回把 Boolean 转化为 Number 后的值和另一个进行比较。(false为0，true为1)</li>
+<li>如果 Type(x)或 Type(y)中有一个是 Object，则会比较 x == toPrimitive(y) 或 toPrimitive(x) == y，即将引入类型转换为基本类型再进行比较，否则返回 false。</li>
+</ol>
+<h2 id="对象和非对象之间的比较"><a href="#对象和非对象之间的比较" class="headerlink" title="对象和非对象之间的比较"></a>对象和非对象之间的比较</h2><p>关于引用类型（对象/函数/数组）和基本类型（字符串/数字/布尔值）之间的比较，从上面的比较规则中我们看到，是将引用类型转化为基本类型再进行比较：</p>
+<ol>
+<li>如果 Type(x) 是字符串或数字，Type(y) 是对象，则返回 x == toPrimitive(y) 的结果。</li>
+<li>如果 Type(x) 是对象，Type(y) 是字符串或数字，则返回 toPrimitive(x) == y 的结果。</li>
+</ol>
+<blockquote>
+<p>什么是 toPrimitive() 函数？  </p>
+</blockquote>
+<p><strong><em>应用场景</em></strong>：在 JS 中，如果想要将引用类型转换成基本类型时，实质就是调用对象的 <strong><em>valueOf</em></strong> 和 <strong><em>toString</em></strong>方法，也就是拆箱转换。</p>
+<p><strong><em>函数结构</em></strong>： toPrimitive(input, preferedType)</p>
+<p><strong><em>参数解释</em></strong>：</p>
+<ul>
+<li>input 是输入的值，即要转换的对象，必选。</li>
+<li>preferedType 是期望转换的基本类型，他可以是字符串，也可以是数字。选填，默认为 number。</li>
+</ul>
+<h4 id="过程说明："><a href="#过程说明：" class="headerlink" title="过程说明："></a>过程说明：</h4><ol>
+<li>如果 input 是原始值，则直接返回这个值，</li>
+<li>如果 input 是对象，调用 input.valueOf()，如果结果是原始值，返回结果；</li>
+<li>否则，调用 input.toString()，如果结果是原始值，返回结果；</li>
+<li>否则，抛出错误。如果转换的类型是 string，则步骤2和3交换执行顺序。</li>
+</ol>
+<p>valueOf 和 toString 的优先级：</p>
+<ol>
+<li>进行对象转换时，优先调用 toString 方法，若没有重写 toString，将调用 valueOf 方法，如果两个方法都没有重写，则按 Object 的 toString 输出；</li>
+<li>进行强转字符串类型时将优先调用 toString 方法，强转为数字时优先调用 valueOf 方法。</li>
+<li>在有运算操作符的情况下，valueOf 的优先级高于 toString。</li>
+</ol>
+<h3 id="解决标题问题"><a href="#解决标题问题" class="headerlink" title="解决标题问题"></a>解决标题问题</h3><p>由上分析可知，在 a 为对象时，可以通过重写 a 的 valueOf 和 toString 方法来让标题的等式成立。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> a = &#123;</span><br><span class="line">  <span class="attr">value</span>: <span class="number">0</span>,</span><br><span class="line">  <span class="title function_">valueOf</span>(<span class="params"></span>) &#123;</span><br><span class="line">    a.<span class="property">value</span> ++;</span><br><span class="line">    <span class="keyword">return</span> a.<span class="property">value</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(a == <span class="number">1</span> &amp;&amp; a == <span class="number">2</span> &amp;&amp; a == <span class="number">3</span>) <span class="comment">// true</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>或者：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> a = &#123;</span><br><span class="line">  <span class="attr">value</span>: <span class="number">0</span>,</span><br><span class="line">  <span class="title function_">toString</span>(<span class="params"></span>) &#123;</span><br><span class="line">    a.<span class="property">value</span> ++;</span><br><span class="line">    <span class="keyword">return</span> a.<span class="property">value</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(a == <span class="number">1</span> &amp;&amp; a == <span class="number">2</span> &amp;&amp; a == <span class="number">3</span>) <span class="comment">// true</span></span><br><span class="line"></span><br></pre></td></tr></table></figure><br>给对象 a 设置一个属性 value 初始为0，并修改其 valueOf 或 toString 方法，当执行<em>a == 1 &amp;&amp; a == 2 &amp;&amp; a == 3</em>时，每次等式比较都会触发 valueOf 或 toString 方法，就会执行 value ++，同时把新的 value 值用于等式比较，三次等式判断时，value 的值分别为1、2、3，所以等会会成立。</p>
+<p>本篇完</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2022/07/15/object_equals/" data-id="cl5lruu1j0000gjs658im1zcw" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/equals/" rel="tag">equals</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js/" rel="tag">js</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/object/" rel="tag">object</a></li></ul>
+
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2022/07/14/how-to-use-hexo/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">How to use hexo</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
 
 </section>
         
