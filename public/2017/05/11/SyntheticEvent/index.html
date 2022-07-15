@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>合成事件（SyntheticEvent） | Amy&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="本文简要介绍React事件系统中的合成事件(SyntheticEvent)，SyntheticEvent是React对浏览器原生事件跨游览器的封装，和原生事件一样支持stopPropagation()、preventDefault()接口，并且这些接口是跨游览器兼容的。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="合成事件（SyntheticEvent）">
+<meta property="og:url" content="http://yoursite.com/2017/05/11/SyntheticEvent/index.html">
+<meta property="og:site_name" content="Amy&#39;s blog">
+<meta property="og:description" content="本文简要介绍React事件系统中的合成事件(SyntheticEvent)，SyntheticEvent是React对浏览器原生事件跨游览器的封装，和原生事件一样支持stopPropagation()、preventDefault()接口，并且这些接口是跨游览器兼容的。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2017-05-11T08:40:00.000Z">
+<meta property="article:modified_time" content="2022-07-14T01:23:25.011Z">
+<meta property="article:author" content="Amy Zhao">
+<meta property="article:tag" content="SyntheticEvent">
+<meta property="article:tag" content="react">
+<meta property="article:tag" content="javascript">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Amy&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Amy&#39;s blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-SyntheticEvent" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/05/11/SyntheticEvent/" class="article-date">
+  <time datetime="2017-05-11T08:40:00.000Z" itemprop="datePublished">2017-05-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      合成事件（SyntheticEvent）
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>本文简要介绍React事件系统中的合成事件(<code>SyntheticEvent</code>)，<code>SyntheticEvent</code>是React对浏览器原生事件跨游览器的封装，和原生事件一样支持<code>stopPropagation()</code>、<code>preventDefault()</code>接口，并且这些接口是跨游览器兼容的。</p>
+</blockquote>
+<span id="more"></span>
+<h3 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h3><p>如果需要使用浏览器的原生事件，可以通过<code>nativeEvent</code>属性获得。每个<code>SyntheticEvent</code>对象都具有以下属性：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">boolean bubbles</span><br><span class="line">boolean cancelable</span><br><span class="line">boolean defaultPrevented</span><br><span class="line">boolean isTrusted</span><br><span class="line">boolean <span class="title function_">isDefaultPrevented</span>()</span><br><span class="line">boolean <span class="title function_">isPropagationStopped</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> <span class="title function_">preventDefault</span>()</span><br><span class="line"><span class="keyword">void</span> <span class="title function_">stopPropagation</span>()</span><br><span class="line"></span><br><span class="line">string type</span><br><span class="line"></span><br><span class="line">number eventPhase</span><br><span class="line">number timeStamp</span><br><span class="line"></span><br><span class="line"><span class="title class_">DOMEvent</span> nativeEvent</span><br><span class="line"><span class="title class_">DOMEventTarget</span> currentTarget</span><br><span class="line"><span class="title class_">DOMEventTarget</span> target</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p><strong><em>注意：</em></strong><br>React v0.14版本，在事件处理程序中返回<code>false</code>并不会停止事件冒泡，取而代之，如果需要应手动触发<code>e.stopPropagation()</code>或<code>e.preventDefault()</code>。</p>
+</blockquote>
+<h3 id="事件池-Event-Pooling"><a href="#事件池-Event-Pooling" class="headerlink" title="事件池 (Event Pooling)"></a>事件池 (<code>Event Pooling</code>)</h3><p><code>SyntheticEvent</code>是池化的，就意味着<code>SyntheticEvent</code>对象将会被重用，且所有属性都会在事件回调被调用后清空（<code>nullified</code>）。这是出于性能考虑，因此，无法异步访问事件。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">onClick</span>(<span class="params">event</span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(event); <span class="comment">// =&gt; nullified object.</span></span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(event.<span class="property">type</span>); <span class="comment">// =&gt; &quot;click&quot;</span></span><br><span class="line">    <span class="keyword">const</span> eventType = event.<span class="property">type</span>; <span class="comment">// =&gt; &quot;click&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">setTimeout</span>(<span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(event.<span class="property">type</span>); <span class="comment">// =&gt; null</span></span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(eventType); <span class="comment">// =&gt; &quot;click&quot;</span></span><br><span class="line">    &#125;, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Won&#x27;t work. this.state.clickEvent will only contain null values.</span></span><br><span class="line">    <span class="variable language_">this</span>.<span class="title function_">setState</span>(&#123;<span class="attr">clickEvent</span>: event&#125;);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// You can still export event properties.</span></span><br><span class="line">    <span class="variable language_">this</span>.<span class="title function_">setState</span>(&#123;<span class="attr">eventType</span>: event.<span class="property">type</span>&#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p><strong><em>注意：</em></strong><br>如果想异步访问事件属性，需要在事件上调用<code>event.persist()</code>，这会从池中移除<code>SyntheticEvent</code>并允许保留对事件的引用。   </p>
+</blockquote>
+<h3 id="支持的事件"><a href="#支持的事件" class="headerlink" title="支持的事件"></a>支持的事件</h3><p>React将事件统一化，使事件在不同的浏览器上保持一致的属性。<br>以下的事件处理程序在事件冒泡阶段被触发，如果要注册事件捕获程序，在所有的事件名后加上<code>Capture</code>即可，例如，使用<code>onClickCapture</code>来处理捕获阶段的点击事件。   </p>
+<ul>
+<li>Clipboard Events</li>
+<li>Composition Events</li>
+<li>Keyboard Events</li>
+<li>Focus Events</li>
+<li>Form Events</li>
+<li>Mouse Events</li>
+<li>Selection Events</li>
+<li>Touch Events</li>
+<li>UI Events</li>
+<li>Wheel Events</li>
+<li>Media Events</li>
+<li>Image Events</li>
+<li>Animation Events</li>
+<li>Transition Events</li>
+</ul>
+<h4 id="Clipboard-Events"><a href="#Clipboard-Events" class="headerlink" title="Clipboard Events"></a>Clipboard Events</h4><p>Event names:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">onCopy onCut onPaste</span><br></pre></td></tr></table></figure></p>
+<p>Properties:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">DOMDataTransfer</span> clipboardData</span><br></pre></td></tr></table></figure></p>
+<h4 id="Composition-Events"><a href="#Composition-Events" class="headerlink" title="Composition Events"></a>Composition Events</h4><p>Event names:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">onCompositionEnd onCompositionStart onCompositionUpdate</span><br></pre></td></tr></table></figure></p>
+<p>Properties:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">string data</span><br></pre></td></tr></table></figure></p>
+<h4 id="Keyboard-Events"><a href="#Keyboard-Events" class="headerlink" title="Keyboard Events"></a>Keyboard Events</h4><p>Event names:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">onKeyDown onKeyPress onKeyUp</span><br></pre></td></tr></table></figure></p>
+<p>Properties:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">boolean altKey</span><br><span class="line">boolean ctrlKey</span><br><span class="line">boolean <span class="title function_">getModifierState</span>(key)</span><br><span class="line">boolean metaKey</span><br><span class="line">boolean repeat</span><br><span class="line">boolean shiftKey</span><br><span class="line"></span><br><span class="line">number charCode</span><br><span class="line">number keyCode</span><br><span class="line">number location</span><br><span class="line">number which</span><br><span class="line"></span><br><span class="line">string key</span><br><span class="line">string locale</span><br></pre></td></tr></table></figure></p>
+<h4 id="Focus-Events"><a href="#Focus-Events" class="headerlink" title="Focus Events"></a>Focus Events</h4><p>Event names:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">onFocus onBlur</span><br></pre></td></tr></table></figure><br>These focus events work on all elements in the React DOM, not just form elements.  </p>
+<p>Properties:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">DOMEventTarget</span> relatedTarget</span><br></pre></td></tr></table></figure></p>
+<h4 id="Form-Events"><a href="#Form-Events" class="headerlink" title="Form Events"></a>Form Events</h4><p>Event names:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">onChange onInput onSubmit</span><br></pre></td></tr></table></figure></p>
+<p>Properties:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">DOMEventTarget</span> relatedTarget</span><br></pre></td></tr></table></figure></p>
+<h4 id="Mouse-Events"><a href="#Mouse-Events" class="headerlink" title="Mouse Events"></a>Mouse Events</h4><p>Event names:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">onClick onContextMenu onDoubleClick onDrage onDragEnd onDragEnter onDragExit onDragLeave onDragOver onDragStart onDrop onMouseDown onMouseEnter onMouseLeave onMouseMove onMouseOut onMouseOver onMouseUp</span><br></pre></td></tr></table></figure><br>The <code>onMouseEnter</code> and <code>onMouseLeave</code> events propagate from the element being left to the one being entered instead of ordinary bubbling and do not have a capture phase.   </p>
+<p>Properties:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">boolean altKey</span><br><span class="line">boolean ctrlKey</span><br><span class="line">boolean <span class="title function_">getModifierState</span>(key)</span><br><span class="line">boolean metaKey</span><br><span class="line">boolean shiftKey</span><br><span class="line"></span><br><span class="line">number button</span><br><span class="line">number buttons</span><br><span class="line">number clientX</span><br><span class="line">number clientY</span><br><span class="line">number pageX</span><br><span class="line">number pageY</span><br><span class="line">number screenX</span><br><span class="line">number screenY</span><br><span class="line"></span><br><span class="line"><span class="title class_">DOMEventTarget</span> relatedTarget</span><br></pre></td></tr></table></figure></p>
+<h4 id="Selection-Events"><a href="#Selection-Events" class="headerlink" title="Selection Events"></a>Selection Events</h4><p>Event names:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">onSelect</span><br></pre></td></tr></table></figure></p>
+<p>Properties:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">DOMEventTarget</span> relatedTarget</span><br></pre></td></tr></table></figure></p>
+<h4 id="Touch-Events"><a href="#Touch-Events" class="headerlink" title="Touch Events"></a>Touch Events</h4><p>Event names:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">onTouchCancel onTouchEnd onTouchMove onTouchStart</span><br></pre></td></tr></table></figure></p>
+<p>Properties:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">boolean altKey</span><br><span class="line">boolean <span class="title function_">getModifierState</span>(key)</span><br><span class="line">boolean ctrlKey</span><br><span class="line">boolean metaKey</span><br><span class="line">boolean shiftKey</span><br><span class="line"></span><br><span class="line"><span class="title class_">DOMTouchList</span> targetTouches</span><br><span class="line"><span class="title class_">DOMTouchList</span> touches</span><br></pre></td></tr></table></figure></p>
+<h4 id="UI-Events"><a href="#UI-Events" class="headerlink" title="UI Events"></a>UI Events</h4><p>Event names:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">onScroll</span><br></pre></td></tr></table></figure></p>
+<p>Properties:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">number detail</span><br><span class="line"><span class="title class_">DOMAbstractView</span> view</span><br></pre></td></tr></table></figure></p>
+<h4 id="Wheel-Events"><a href="#Wheel-Events" class="headerlink" title="Wheel Events"></a>Wheel Events</h4><p>Event names:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">onWheel</span><br></pre></td></tr></table></figure></p>
+<p>Properties:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">number deltaMode</span><br><span class="line">number deltaX</span><br><span class="line">number deltaY</span><br><span class="line">number deltaZ</span><br></pre></td></tr></table></figure></p>
+<h4 id="Media-Events"><a href="#Media-Events" class="headerlink" title="Media Events"></a>Media Events</h4><p>Event names:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">onAbort onCanPlay onCanPlayThrough onDurationChange onEmptied onEncrypted onEnded onError onLoadedData onLoadedMetadata onLoadStart onPause onPlay onPlaying onProgress onRateChange onSeeked onSeeking onStalled onSuspend onTimeUpdate onVolumeChange onWaiting</span><br></pre></td></tr></table></figure></p>
+<h4 id="Image-Events"><a href="#Image-Events" class="headerlink" title="Image Events"></a>Image Events</h4><p>Event names:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">onLoad onError</span><br></pre></td></tr></table></figure></p>
+<h4 id="Animation-Events"><a href="#Animation-Events" class="headerlink" title="Animation Events"></a>Animation Events</h4><p>Event names:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">onAnimationStart onAnimationEnt onAnimationIteration</span><br></pre></td></tr></table></figure></p>
+<p>Properties:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">string animationName</span><br><span class="line">string pseudoElement</span><br><span class="line">float elapsedTime</span><br></pre></td></tr></table></figure></p>
+<h4 id="Transition-Events"><a href="#Transition-Events" class="headerlink" title="Transition Events"></a>Transition Events</h4><p>Event names:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">onTransitionEnd</span><br></pre></td></tr></table></figure></p>
+<p>Properties:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">string propertyName</span><br><span class="line">string pseudoElement</span><br><span class="line">float elapsedTime</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/05/11/SyntheticEvent/" data-id="cl5lql4d900088ds68z5b9qnc" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SyntheticEvent/" rel="tag">SyntheticEvent</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/react/" rel="tag">react</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/07/05/mac_useful_tips/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Some useful Mac tips
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/05/05/contenteditable_element/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">contenteditable 使用心得</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/IllegalStateException/" rel="tag">IllegalStateException</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JS/" rel="tag">JS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SyntheticEvent/" rel="tag">SyntheticEvent</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/X-UA-Compatible/" rel="tag">X-UA-Compatible</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bash/" rel="tag">bash</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/branch/" rel="tag">branch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/checkmark/" rel="tag">checkmark</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/class/" rel="tag">class</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/code/" rel="tag">code</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/contenteditable/" rel="tag">contenteditable</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/context/" rel="tag">context</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/" rel="tag">css</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/delete/" rel="tag">delete</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/display/" rel="tag">display</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/div/" rel="tag">div</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/double/" rel="tag">double</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/eclipse/" rel="tag">eclipse</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/es2015/" rel="tag">es2015</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/es6/" rel="tag">es6</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/express/" rel="tag">express</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/framework/" rel="tag">framework</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/function/" rel="tag">function</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/" rel="tag">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hello/" rel="tag">hello</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html/" rel="tag">html</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http-equiv/" rel="tag">http-equiv</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jekyll/" rel="tag">jekyll</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/js/" rel="tag">js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/list/" rel="tag">list</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mac/" rel="tag">mac</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markable/" rel="tag">markable</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/meta/" rel="tag">meta</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/opacity/" rel="tag">opacity</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/p/" rel="tag">p</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/permission/" rel="tag">permission</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react/" rel="tag">react</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/review/" rel="tag">review</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rtc/" rel="tag">rtc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/" rel="tag">shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/symbol/" rel="tag">symbol</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/theme/" rel="tag">theme</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tips/" rel="tag">tips</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/visibility/" rel="tag">visibility</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/win7/" rel="tag">win7</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E6%A0%B8/" rel="tag">代码审核</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/IllegalStateException/" style="font-size: 10px;">IllegalStateException</a> <a href="/tags/JS/" style="font-size: 15px;">JS</a> <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/SyntheticEvent/" style="font-size: 10px;">SyntheticEvent</a> <a href="/tags/X-UA-Compatible/" style="font-size: 10px;">X-UA-Compatible</a> <a href="/tags/bash/" style="font-size: 15px;">bash</a> <a href="/tags/branch/" style="font-size: 10px;">branch</a> <a href="/tags/checkmark/" style="font-size: 10px;">checkmark</a> <a href="/tags/class/" style="font-size: 10px;">class</a> <a href="/tags/code/" style="font-size: 15px;">code</a> <a href="/tags/contenteditable/" style="font-size: 10px;">contenteditable</a> <a href="/tags/context/" style="font-size: 10px;">context</a> <a href="/tags/css/" style="font-size: 10px;">css</a> <a href="/tags/delete/" style="font-size: 10px;">delete</a> <a href="/tags/display/" style="font-size: 10px;">display</a> <a href="/tags/div/" style="font-size: 10px;">div</a> <a href="/tags/double/" style="font-size: 10px;">double</a> <a href="/tags/eclipse/" style="font-size: 10px;">eclipse</a> <a href="/tags/es2015/" style="font-size: 15px;">es2015</a> <a href="/tags/es6/" style="font-size: 15px;">es6</a> <a href="/tags/express/" style="font-size: 10px;">express</a> <a href="/tags/framework/" style="font-size: 10px;">framework</a> <a href="/tags/function/" style="font-size: 10px;">function</a> <a href="/tags/git/" style="font-size: 20px;">git</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hello/" style="font-size: 10px;">hello</a> <a href="/tags/html/" style="font-size: 10px;">html</a> <a href="/tags/http-equiv/" style="font-size: 10px;">http-equiv</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/jekyll/" style="font-size: 10px;">jekyll</a> <a href="/tags/js/" style="font-size: 10px;">js</a> <a href="/tags/list/" style="font-size: 10px;">list</a> <a href="/tags/mac/" style="font-size: 10px;">mac</a> <a href="/tags/markable/" style="font-size: 10px;">markable</a> <a href="/tags/meta/" style="font-size: 10px;">meta</a> <a href="/tags/opacity/" style="font-size: 10px;">opacity</a> <a href="/tags/p/" style="font-size: 10px;">p</a> <a href="/tags/permission/" style="font-size: 10px;">permission</a> <a href="/tags/react/" style="font-size: 10px;">react</a> <a href="/tags/review/" style="font-size: 10px;">review</a> <a href="/tags/rtc/" style="font-size: 10px;">rtc</a> <a href="/tags/shell/" style="font-size: 10px;">shell</a> <a href="/tags/symbol/" style="font-size: 10px;">symbol</a> <a href="/tags/theme/" style="font-size: 10px;">theme</a> <a href="/tags/tips/" style="font-size: 10px;">tips</a> <a href="/tags/visibility/" style="font-size: 10px;">visibility</a> <a href="/tags/win7/" style="font-size: 10px;">win7</a> <a href="/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E6%A0%B8/" style="font-size: 10px;">代码审核</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/07/14/how-to-use-hexo/">How to use hexo</a>
+          </li>
+        
+          <li>
+            <a href="/2022/07/14/code_review/">关于 Code Review 一点看法</a>
+          </li>
+        
+          <li>
+            <a href="/2017/07/05/mac_useful_tips/">Some useful Mac tips</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/11/SyntheticEvent/">合成事件（SyntheticEvent）</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/05/contenteditable_element/">contenteditable 使用心得</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 Amy Zhao<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  </div>
+</body>
+</html>
