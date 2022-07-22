@@ -3,22 +3,19 @@
 <head>
   <meta charset="utf-8">
   
-  <title>JS中两个!!的用法 | Amy&#39;s blog</title>
+  <title>常用 Git 命令集 | Amy&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="两个感叹号的作用就在于，如果明确设置了变量的值（非null&#x2F;undifined&#x2F;0&#x2F;“”等值),结果就会根据变量的实际值来返回，如果没有设置，结果就会返回false。">
+  <meta name="description" content="本地分支关联远程分支 查看远程分支和其最近提交1git branch -vv 查看远程分支1git branch -r 存在关联错误的情况先删除1git remote remove origin&#x2F;master 关联正确分支1git branch --set-upstream-to&#x3D;origin&#x2F;dev dev   创建远端分支 创建一个本地分支1git checkout -b [branch_na">
 <meta property="og:type" content="article">
-<meta property="og:title" content="JS中两个!!的用法">
-<meta property="og:url" content="http://yoursite.com/2016/07/22/JS_double_markable_sign/index.html">
+<meta property="og:title" content="常用 Git 命令集">
+<meta property="og:url" content="http://yoursite.com/2022/07/21/working_with_git_v2/index.html">
 <meta property="og:site_name" content="Amy&#39;s blog">
-<meta property="og:description" content="两个感叹号的作用就在于，如果明确设置了变量的值（非null&#x2F;undifined&#x2F;0&#x2F;“”等值),结果就会根据变量的实际值来返回，如果没有设置，结果就会返回false。">
+<meta property="og:description" content="本地分支关联远程分支 查看远程分支和其最近提交1git branch -vv 查看远程分支1git branch -r 存在关联错误的情况先删除1git remote remove origin&#x2F;master 关联正确分支1git branch --set-upstream-to&#x3D;origin&#x2F;dev dev   创建远端分支 创建一个本地分支1git checkout -b [branch_na">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2016-07-22T03:33:00.000Z">
-<meta property="article:modified_time" content="2022-07-14T01:23:25.010Z">
+<meta property="article:published_time" content="2022-07-21T09:50:00.000Z">
+<meta property="article:modified_time" content="2022-07-22T00:37:48.580Z">
 <meta property="article:author" content="Amy Zhao">
-<meta property="article:tag" content="JavaScript">
-<meta property="article:tag" content="JS">
-<meta property="article:tag" content="markable">
-<meta property="article:tag" content="double">
+<meta property="article:tag" content="git">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="/atom.xml" title="Amy&#39;s blog" type="application/atom+xml">
@@ -70,10 +67,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-JS_double_markable_sign" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-working_with_git_v2" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/07/22/JS_double_markable_sign/" class="article-date">
-  <time datetime="2016-07-22T03:33:00.000Z" itemprop="datePublished">2016-07-22</time>
+    <a href="/2022/07/21/working_with_git_v2/" class="article-date">
+  <time datetime="2022-07-21T09:50:00.000Z" itemprop="datePublished">2022-07-21</time>
 </a>
     
   </div>
@@ -84,7 +81,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      JS中两个!!的用法
+      常用 Git 命令集
     </h1>
   
 
@@ -92,19 +89,71 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <blockquote>
-<p>两个感叹号的作用就在于，如果明确设置了变量的值（非null/undifined/0/“”等值),结果就会根据变量的实际值来返回，如果没有设置，结果就会返回false。</p>
-</blockquote>
-<span id="more"></span>
-<p>如下例子：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> foo;</span><br><span class="line"><span class="title function_">alert</span>(!foo); <span class="comment">// undefined情况下，一个感叹号返回true</span></span><br><span class="line"><span class="title function_">alert</span>(!goo); <span class="comment">// null情况下，一个感叹号同样返回true</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> obj = &#123;<span class="attr">flag</span>:<span class="literal">true</span>&#125;;</span><br><span class="line"><span class="keyword">var</span> test = !!obj.<span class="property">flag</span>; <span class="comment">// 等效于var test = obj.flag || false;</span></span><br><span class="line"><span class="title function_">alert</span>(test);</span><br></pre></td></tr></table></figure>
+        <h2 id="本地分支关联远程分支"><a href="#本地分支关联远程分支" class="headerlink" title="本地分支关联远程分支"></a>本地分支关联远程分支</h2><ol>
+<li>查看远程分支和其最近提交<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch -vv</span><br></pre></td></tr></table></figure></li>
+<li>查看远程分支<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch -r</span><br></pre></td></tr></table></figure></li>
+<li>存在关联错误的情况先删除<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote remove origin/master</span><br></pre></td></tr></table></figure></li>
+<li>关联正确分支<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch --set-upstream-to=origin/dev dev</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="创建远端分支"><a href="#创建远端分支" class="headerlink" title="创建远端分支"></a>创建远端分支</h2><ol>
+<li>创建一个本地分支<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b [branch_name]</span><br></pre></td></tr></table></figure></li>
+<li>创建远端分支<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push origin [remote_branch_name]</span><br></pre></td></tr></table></figure></li>
+<li>将本地分支与远程同名分支关联<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push --set-upstream origin [local_branch_name]</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="本地暂存"><a href="#本地暂存" class="headerlink" title="本地暂存"></a>本地暂存</h2><ol>
+<li>添加要保存文件<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br></pre></td></tr></table></figure></li>
+<li>保存<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git stash save <span class="string">&quot;a message&quot;</span></span><br></pre></td></tr></table></figure></li>
+<li>恢复  </li>
+</ol>
+<p>先查看：如果有多个stash内容，这里可以选择恢复哪一个<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git stash list</span><br><span class="line">stash@&#123;0&#125;: On dev: saved_changes</span><br></pre></td></tr></table></figure><br>方法1：这种情况保存的内容仍然保留<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git stash apply stash@&#123;0&#125;</span><br></pre></td></tr></table></figure><br>方法2：这种情况不会保留已保存内容<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git pop</span><br></pre></td></tr></table></figure></p>
+<h2 id="提交另外一个分支上的某个提交"><a href="#提交另外一个分支上的某个提交" class="headerlink" title="提交另外一个分支上的某个提交"></a>提交另外一个分支上的某个提交</h2><p>对于多分支的代码库，将代码从一个分支转移到另一个分支是常见需求。<br>这时分两种情况。一种情况是，你需要另一个分支的所有代码变动，那么就采用合并（git merge）。另一种情况是，你只需要部分代码变动（某几个提交），这时可以采用 Cherry pick。<br><a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2020/04/git-cherry-pick.html">http://www.ruanyifeng.com/blog/2020/04/git-cherry-pick.html</a></p>
+<h2 id="回退到某次提交"><a href="#回退到某次提交" class="headerlink" title="回退到某次提交"></a>回退到某次提交</h2><ul>
+<li><p>未提交到远程</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset --soft HEAD^</span><br></pre></td></tr></table></figure>
+<p>说明：HEAD^ 表示上一个版本，即上一次的 commit，也可以写成 HEAD~1。<br>如果进行两次的 commit，想要都撤回，可以使用 HEAD~2</p>
+</li>
+<li><p>已提交到远程，回滚</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset --hard commit_id</span><br></pre></td></tr></table></figure>
+<p>回退到commit_id这次的提交，包含这次</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push --force</span><br></pre></td></tr></table></figure>
+<p>强制推到远端</p>
+</li>
+</ul>
+<h2 id="更改远程仓库指向"><a href="#更改远程仓库指向" class="headerlink" title="更改远程仓库指向"></a>更改远程仓库指向</h2><ol>
+<li>查看远程当前远程库地址：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote -v</span><br></pre></td></tr></table></figure></li>
+<li>重新设置远程库地址<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git remote set-url origin http://120.221.160.107:3000/medtech_web/lrhealth_ms.git</span><br><span class="line">git remote set-url origin http://120.221.161.88:9001/medtech_web/cloudImage-webH5.git</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="删除分支"><a href="#删除分支" class="headerlink" title="删除分支"></a>删除分支</h2><ul>
+<li>删除本地<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch -D [分支名]</span><br></pre></td></tr></table></figure></li>
+<li>删除远程分支<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push origin --delete [分支名]</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="切换远端-git-仓库地址"><a href="#切换远端-git-仓库地址" class="headerlink" title="切换远端 git 仓库地址"></a>切换远端 git 仓库地址</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote set-url origin http://mingzhanghui@192.168.10.57/r/OnlineEdu/bgms-web.git</span><br></pre></td></tr></table></figure>
+<h2 id="打-tag"><a href="#打-tag" class="headerlink" title="打 tag"></a>打 tag</h2><ul>
+<li><p>创建 tag</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git tag [tagName]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>推到远程</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push origin [tagName]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除本地 tag</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git tag -d [tagName]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除远程 tag</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push orign :refs/tags/[tagName]</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/07/22/JS_double_markable_sign/" data-id="cl5lql4d600048ds6embf6em4" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2022/07/21/working_with_git_v2/" data-id="cl5vqhagk0000p7s655zv5x7y" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JS/" rel="tag">JS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/double/" rel="tag">double</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/markable/" rel="tag">markable</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/git/" rel="tag">git</a></li></ul>
 
     </footer>
   </div>
@@ -112,19 +161,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2016/07/22/copy_paste_in_Windows_git_bash/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          如何在Windows git bash中拷贝文件内容
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/07/22/JavaScript_context/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2022/07/18/css_position/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">JavaScript上下文</div>
+      <div class="article-nav-title">关于 CSS position 属性分析</div>
     </a>
   
 </nav>
