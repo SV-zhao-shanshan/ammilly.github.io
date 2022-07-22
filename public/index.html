@@ -64,6 +64,101 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-working_with_git_v2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/21/working_with_git_v2/" class="article-date">
+  <time datetime="2022-07-21T09:50:00.000Z" itemprop="datePublished">2022-07-21</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/07/21/working_with_git_v2/">常用 Git 命令集</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="本地分支关联远程分支"><a href="#本地分支关联远程分支" class="headerlink" title="本地分支关联远程分支"></a>本地分支关联远程分支</h2><ol>
+<li>查看远程分支和其最近提交<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch -vv</span><br></pre></td></tr></table></figure></li>
+<li>查看远程分支<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch -r</span><br></pre></td></tr></table></figure></li>
+<li>存在关联错误的情况先删除<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote remove origin/master</span><br></pre></td></tr></table></figure></li>
+<li>关联正确分支<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch --set-upstream-to=origin/dev dev</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="创建远端分支"><a href="#创建远端分支" class="headerlink" title="创建远端分支"></a>创建远端分支</h2><ol>
+<li>创建一个本地分支<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b [branch_name]</span><br></pre></td></tr></table></figure></li>
+<li>创建远端分支<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push origin [remote_branch_name]</span><br></pre></td></tr></table></figure></li>
+<li>将本地分支与远程同名分支关联<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push --set-upstream origin [local_branch_name]</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="本地暂存"><a href="#本地暂存" class="headerlink" title="本地暂存"></a>本地暂存</h2><ol>
+<li>添加要保存文件<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br></pre></td></tr></table></figure></li>
+<li>保存<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git stash save <span class="string">&quot;a message&quot;</span></span><br></pre></td></tr></table></figure></li>
+<li>恢复  </li>
+</ol>
+<p>先查看：如果有多个stash内容，这里可以选择恢复哪一个<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git stash list</span><br><span class="line">stash@&#123;0&#125;: On dev: saved_changes</span><br></pre></td></tr></table></figure><br>方法1：这种情况保存的内容仍然保留<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git stash apply stash@&#123;0&#125;</span><br></pre></td></tr></table></figure><br>方法2：这种情况不会保留已保存内容<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git pop</span><br></pre></td></tr></table></figure></p>
+<h2 id="提交另外一个分支上的某个提交"><a href="#提交另外一个分支上的某个提交" class="headerlink" title="提交另外一个分支上的某个提交"></a>提交另外一个分支上的某个提交</h2><p>对于多分支的代码库，将代码从一个分支转移到另一个分支是常见需求。<br>这时分两种情况。一种情况是，你需要另一个分支的所有代码变动，那么就采用合并（git merge）。另一种情况是，你只需要部分代码变动（某几个提交），这时可以采用 Cherry pick。<br><a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2020/04/git-cherry-pick.html">http://www.ruanyifeng.com/blog/2020/04/git-cherry-pick.html</a></p>
+<h2 id="回退到某次提交"><a href="#回退到某次提交" class="headerlink" title="回退到某次提交"></a>回退到某次提交</h2><ul>
+<li><p>未提交到远程</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset --soft HEAD^</span><br></pre></td></tr></table></figure>
+<p>说明：HEAD^ 表示上一个版本，即上一次的 commit，也可以写成 HEAD~1。<br>如果进行两次的 commit，想要都撤回，可以使用 HEAD~2</p>
+</li>
+<li><p>已提交到远程，回滚</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset --hard commit_id</span><br></pre></td></tr></table></figure>
+<p>回退到commit_id这次的提交，包含这次</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push --force</span><br></pre></td></tr></table></figure>
+<p>强制推到远端</p>
+</li>
+</ul>
+<h2 id="更改远程仓库指向"><a href="#更改远程仓库指向" class="headerlink" title="更改远程仓库指向"></a>更改远程仓库指向</h2><ol>
+<li>查看远程当前远程库地址：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote -v</span><br></pre></td></tr></table></figure></li>
+<li>重新设置远程库地址<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git remote set-url origin http://120.221.160.107:3000/medtech_web/lrhealth_ms.git</span><br><span class="line">git remote set-url origin http://120.221.161.88:9001/medtech_web/cloudImage-webH5.git</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="删除分支"><a href="#删除分支" class="headerlink" title="删除分支"></a>删除分支</h2><ul>
+<li>删除本地<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch -D [分支名]</span><br></pre></td></tr></table></figure></li>
+<li>删除远程分支<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push origin --delete [分支名]</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="切换远端-git-仓库地址"><a href="#切换远端-git-仓库地址" class="headerlink" title="切换远端 git 仓库地址"></a>切换远端 git 仓库地址</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote set-url origin http://mingzhanghui@192.168.10.57/r/OnlineEdu/bgms-web.git</span><br></pre></td></tr></table></figure>
+<h2 id="打-tag"><a href="#打-tag" class="headerlink" title="打 tag"></a>打 tag</h2><ul>
+<li><p>创建 tag</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git tag [tagName]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>推到远程</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push origin [tagName]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除本地 tag</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git tag -d [tagName]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除远程 tag</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push orign :refs/tags/[tagName]</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2022/07/21/working_with_git_v2/" data-id="cl5vqhagk0000p7s655zv5x7y" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/git/" rel="tag">git</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-css_position" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2022/07/18/css_position/" class="article-date">
@@ -469,51 +564,6 @@
 
 
   
-    <article id="post-list_delete_branches" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/07/29/list_delete_branches/" class="article-date">
-  <time datetime="2016-07-29T08:06:00.000Z" itemprop="datePublished">2016-07-29</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/07/29/list_delete_branches/">How to list and delete branches</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>Git list different demanded branches and delete branches both local and remote.</p>
-</blockquote>
-        
-          <p class="article-more-link">
-            <a href="/2016/07/29/list_delete_branches/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/07/29/list_delete_branches/" data-id="cl5lql4dj000o8ds61ck1449d" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/branch/" rel="tag">branch</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/delete/" rel="tag">delete</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/list/" rel="tag">list</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
 
 
   <nav id="page-nav">
@@ -562,6 +612,10 @@
       <ul>
         
           <li>
+            <a href="/2022/07/21/working_with_git_v2/">常用 Git 命令集</a>
+          </li>
+        
+          <li>
             <a href="/2022/07/18/css_position/">关于 CSS position 属性分析</a>
           </li>
         
@@ -575,10 +629,6 @@
         
           <li>
             <a href="/2017/07/05/mac_useful_tips/">Some useful Mac tips</a>
-          </li>
-        
-          <li>
-            <a href="/2017/05/11/SyntheticEvent/">合成事件（SyntheticEvent）</a>
           </li>
         
       </ul>
